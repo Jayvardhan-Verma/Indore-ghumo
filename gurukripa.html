@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Cafe and Restaurants </title>
+    <link rel="stylesheet" href="dining.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    
+
+    <!-- <script type="text/javascript" src="script.js"></script> -->
+</head>
+
+<body>
+    <header>
+        <a href="#" class="logo">Indore Ghumo</a>
+        <div class="bx bx-menu" id="menu-icon"> </div>
+        
+        <ul class="navbar">
+         <li><a href="index.html#home">Home</a></li>
+         <li><a href="index.html#container">Categories</a></li>
+         <li><a href="index.html#package">Package</a></li>
+         <li><a href="index.html#contact">Contact Us</a></li>
+         <li><a href="login.html">Login</a></li>
+         </ul>
+       </header>
+  <section>  
+    <div class="center">
+        <h1> Guru Kripa Table Booking Form</h1>
+        <form method="post" onsubmit="sendData(event)">
+
+            <div class="text_field">
+                <input type="text" id="Name" required>
+                <span></span>
+                <label for="Name">Name</label>
+            </div>
+            <div class="text_field">
+                <input type="text" id="ContactNumber" required>
+                <span></span>
+                <label for="ContactNumber">Contact Number</label>
+            </div>
+            <div class="text_field">
+                <input type="number" id="NumberofPerson" required>
+                <span></span>
+                <label for="NumberofPerson">Number of Person</label>
+            </div>
+            <div class="text_field">
+                <input type="text"  onfocus="this.type='date'" id="Date" required>
+                <span></span>
+                <label for="Date">Date</label>
+            </div>
+           
+            <div class="text_field">
+                <input type="text"  onfocus="this.type='time'" id="Time" required>
+                <span></span>
+                <label for="Time">Time</label>
+            </div>
+            
+            <button  type="submit">Book</button>
+          
+        </form>
+    </div>
+    </section>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+
+
+
+
+      <script>
+  
+        const firebaseConfig = {
+            apiKey: "AIzaSyAqIVuuoft9GrmFbeOtiC7l7dzqlbXr4RM",
+  authDomain: "guru-kripa-2b7aa.firebaseapp.com",
+  databaseURL: "https://guru-kripa-2b7aa-default-rtdb.firebaseio.com",
+  projectId: "guru-kripa-2b7aa",
+  storageBucket: "guru-kripa-2b7aa.appspot.com",
+  messagingSenderId: "991318258018",
+  appId: "1:991318258018:web:110b4736aba9f2b1bb7c3b",
+  measurementId: "G-75DY9HQMJX"
+ };
+
+        firebase.initializeApp(firebaseConfig);
+
+async function sendData(event) {
+event.preventDefault();
+const Name = document.getElementById('Name').value;
+const ContactNumber = document.getElementById('ContactNumber').value;
+const NumberofPerson = document.getElementById('NumberofPerson').value;
+const Date = document.getElementById('Date').value;
+const Time = document.getElementById('Time').value;
+
+const db = firebase.firestore();
+
+const userData = {
+Name: Name,
+ContactNumber: ContactNumber,
+NumberofPerson: NumberofPerson,
+Date: Date,
+Time: Time
+};
+
+try {
+await db.collection("Users").add(userData);
+alert("Package booked successfully");
+window.location.href = 'index.html';
+} catch (error) {
+console.error("Error writing document: ", error);
+alert("Failed to book package. Please try again later.");
+}
+}
+
+
+</script>
+ 
+        
+      
+      
+      
+      <script type="text/javascript" src="script.js">
+
+      </script>      
+    
+
+
+</body>
+
+</html>

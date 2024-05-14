@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Signup form</title>
+    <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    
+
+    <!-- <script type="text/javascript" src="script.js"></script> -->
+</head>
+
+<body>
+    <header>
+        <a href="#" class="logo">Indore Ghumo</a>
+        <div class="bx bx-menu" id="menu-icon"> </div>
+        
+        <ul class="navbar">
+         <li><a href="index.html#home">Home</a></li>
+         <li><a href="index.html#container">Categories</a></li>
+         <li><a href="index.html#package">Package</a></li>
+         <li><a href="index.html#contact">Contact Us</a></li>
+         <li><a href="login.html">Login</a></li>
+         </ul>
+       </header>
+  <section>  
+    <div class="center">
+        <h1>Signup</h1>
+        <form method="post" onsubmit="sendData(event)">
+
+            <div class="text_field">
+                <input type="text" id="username" required>
+                <span></span>
+                <label for="username">Username</label>
+            </div>
+            <div class="text_field">
+                <input type="text" id="firstName" required>
+                <span></span>
+                <label for="firstName">First Name</label>
+            </div>
+            <div class="text_field">
+                <input type="text" id="lastName" required>
+                <span></span>
+                <label for="lastName">Last Name</label>
+            </div>
+            <div class="text_field">
+                <input type="email" id="email" required>
+                <span></span>
+                <label for="email">Email</label>
+            </div>
+            <div class="text_field">
+                <input type="password" id="password" required>
+                <span></span>
+                <label for="password">Password</label>
+            </div>
+            <div class="text_field">
+                <input type="password" id="confirmPassword" required oninput="checkPassword()">
+                <span></span>
+                <label for="confirmPassword">Confirm Password</label>
+            </div>
+            <button  type="submit">Signup</button>
+            <div class="signup_link">
+                Already a Member? <a href="login.html">Login</a>
+                <div id="signUpMessage" class="message"></div>   
+            </div>
+        </form>
+    </div>
+    </section>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+
+
+    <script type="text/javascript">
+        function checkPassword() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (password !== confirmPassword) {
+                document.getElementById("confirmPassword").setCustomValidity("Passwords do not match");
+            } else {
+                document.getElementById("confirmPassword").setCustomValidity("");
+            }
+        }
+    </script>
+
+      <script>
+  
+        const firebaseConfig = {
+    apiKey: "AIzaSyDtmaszzx5tN42IS_gL9Z50Hc1YxyI4Zy0",
+    authDomain: "indore-ghumo-1e967.firebaseapp.com",
+    databaseURL: "https://indore-ghumo-1e967-default-rtdb.firebaseio.com",
+    projectId: "indore-ghumo-1e967",
+    storageBucket: "indore-ghumo-1e967.appspot.com",
+    messagingSenderId: "528672928088",
+    appId: "1:528672928088:web:b62b8eda40413df1ba752d",
+    measurementId: "G-FZDN510X19"
+ };
+      
+       
+        firebase.initializeApp(firebaseConfig);
+
+        
+      async  function sendData(event) {
+            console.log("1")
+            event.preventDefault();
+     const username = document.getElementById('username').value;
+     const firstName = document.getElementById('firstName').value;
+     const lastName = document.getElementById('lastName').value;
+     const email = document.getElementById('email').value;
+     const password = document.getElementById('password').value;
+     const confirmPassword = document.getElementById('confirmPassword').value;
+ 
+     // Validate password
+     if (password !== confirmPassword) {
+         showMessage('Passwords do not match', 'signUpMessage');
+         return;
+     }
+ 
+     const auth = firebase.auth();
+     const db = firebase.firestore();
+ 
+     // Create user with email and password
+     auth.createUserWithEmailAndPassword(email, password)
+         .then((userCredential) => {
+             const user = userCredential.user;
+             const userData = {
+                 username: username,
+                 firstName: firstName,
+                 lastName: lastName,
+                 email: email
+             };
+             // Store user data in Firestore
+             db.collection("Users").doc(user.uid).set(userData)
+            
+                 .then(() => {
+                    //  showMessage('Account created successfully', 'signUpMessage');
+                    alert("Account created successfully")
+                     // Redirect to login page
+                      window.location.href = 'login.html';
+                 })
+                 .catch((error) => {
+                     console.error("Error writing document: ", error);
+                 });
+         })
+         .catch((error) => {
+             // Handle errors
+             const errorCode = error.code;
+             if (errorCode === 'auth/email-already-in-use') {
+                 showMessage('Email Address Already Exists !!!', 'signUpMessage');
+             } else {
+                 showMessage('Unable to create User', 'signUpMessage');
+             }
+         });
+ }
+        
+      </script>
+      
+      
+      <script type="text/javascript" src="script.js">
+
+      </script>      
+    
+
+
+</body>
+
+</html>

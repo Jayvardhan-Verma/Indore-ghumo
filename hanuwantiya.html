@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Hanuwantiya Package Booking </title>
+    <link rel="stylesheet" href="packagee.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    
+
+    <!-- <script type="text/javascript" src="script.js"></script> -->
+</head>
+
+<body>
+    <header>
+        <a href="#" class="logo">Indore Ghumo</a>
+        <div class="bx bx-menu" id="menu-icon"> </div>
+        
+        <ul class="navbar">
+         <li><a href="index.html#home">Home</a></li>
+         <li><a href="index.html#container">Categories</a></li>
+         <li><a href="index.html#package">Package</a></li>
+         <li><a href="index.html#contact">Contact Us</a></li>
+         <li><a href="login.html">Login</a></li>
+         </ul>
+       </header>
+  <section>  
+    <div class="center">
+        <h1> Hanuwantiya Package Booking Form</h1>
+        <form method="post" onsubmit="sendData(event)">
+
+            <div class="text_field">
+                <input type="text" id="Name" required>
+                <span></span>
+                <label for="Name">Name</label>
+            </div>
+            <div class="text_field">
+                <input type="text" id="ContactNumber" required>
+                <span></span>
+                <label for="ContactNumber ">Contact Number</label>
+            </div>
+            <div class="text_field">
+                <input type="text" id="Address" required>
+                <span></span>
+                <label for="Address">Address</label>
+            </div>
+            <div class="text_field">
+                <input type="NumberofPerson" id="NumberofPerson" required>
+                <span></span>
+                <label for="NumberofPerson">Number of Person</label>
+            </div>
+            <div class="text_field">
+                <input type="text"  onfocus="this.type='date'"   id="Datefrom" required>
+                <span></span>
+                <label for="Datefrom">Date From</label>
+            </div>
+            <div class="text_field">
+                <input type="text"  onfocus="this.type='date'"  id="Todate" required>
+                <span></span>
+                <label for="To date">To date</label>
+            </div>
+            <button  type="submit">Book</button>
+           
+        </form>
+    </div>
+    </section>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+
+
+
+
+    <script >
+        const firebaseConfig = {
+          apiKey: "AIzaSyAdLTMJh8ruLuM54V24HpbyLoVkG4Dikj0",
+          authDomain: "hanuwantiya-6e9f6.firebaseapp.com",
+          databaseURL: "https://hanuwantiya-6e9f6-default-rtdb.firebaseio.com",
+          projectId: "hanuwantiya-6e9f6",
+          storageBucket: "hanuwantiya-6e9f6.appspot.com",
+          messagingSenderId: "722068358699",
+          appId: "1:722068358699:web:1d592b62d8f7f535d24c6e",
+          measurementId: "G-Z25KT76FL2"
+        };
+      
+      
+        firebase.initializeApp(firebaseConfig);
+
+async function sendData(event) {
+event.preventDefault();
+const Name = document.getElementById('Name').value;
+const ContactNumber = document.getElementById('ContactNumber').value;
+const Address = document.getElementById('Address').value;
+const NumberofPerson = document.getElementById('NumberofPerson').value;
+const Datefrom = document.getElementById('Datefrom').value;
+const Todate = document.getElementById('Todate').value;
+
+const db = firebase.firestore();
+
+const userData = {
+Name: Name,
+ContactNumber: ContactNumber,
+Address: Address,
+NumberofPerson: NumberofPerson,
+Datefrom: Datefrom,
+Todate: Todate
+};
+
+try {
+await db.collection("Users").add(userData);
+alert("Package booked successfully");
+window.location.href = 'index.html';
+} catch (error) {
+console.error("Error writing document: ", error);
+alert("Failed to book package. Please try again later.");
+}
+}
+
+
+</script>
+<script type="text/javascript" src="script.js">
+
+</script>
+</body>
+
+</html>
